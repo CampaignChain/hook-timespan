@@ -1,0 +1,26 @@
+{
+    "name": "campaignchain/hook-timespan",
+    "description": "Define the timespan of an entity.",
+    "keywords": ["timespan"],
+    "type": "campaignchain-hook",
+    "homepage": "http://www.campaignchain.com",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sandro Groganz",
+            "email": "sandro@campaignchain.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "CampaignChain\\Hook\\TimespanBundle\\": "" }
+    },
+    "extra": {
+        "campaignchain": {
+            "kernel": {
+                "classes": [
+                    "CampaignChain\\Hook\\TimespanBundle\\CampaignChainHookTimespanBundle"
+                ]
+            }
+        }
+    }
+}

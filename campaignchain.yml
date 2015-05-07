@@ -1,0 +1,17 @@
+# This file is part of the CampaignChain package.
+#
+# (c) Sandro Groganz <sandro@campaignchain.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+hooks:
+    campaignchain-timespan:
+        display_name: Timespan Hook
+        identifier: timespan
+        services:
+            form: campaignchain.hook.form.type.campaignchain.timespan
+            entity: campaignchain.hook.campaignchain.timespan
+            event_subscriber: campaignchain.hook.listener.campaignchain.timespan
+        label: Timespan
+        type: trigger

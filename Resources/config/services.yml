@@ -1,0 +1,19 @@
+# This file is part of the CampaignChain package.
+#
+# (c) Sandro Groganz <sandro@campaignchain.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+parameters:
+
+services:
+    campaignchain.hook.campaignchain.timespan:
+        class: CampaignChain\Hook\TimespanBundle\EntityService\TimespanService
+        arguments: [ @doctrine.orm.entity_manager, @service_container ]
+    campaignchain.hook.form.type.campaignchain.timespan:
+        class: CampaignChain\Hook\TimespanBundle\Form\Type\TimespanType
+        arguments: [ @service_container ]
+    campaignchain.hook.listener.campaignchain.timespan:
+        class: CampaignChain\Hook\TimespanBundle\EventListener\TimespanListener
+        arguments: [ @service_container ]
