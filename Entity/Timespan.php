@@ -12,8 +12,6 @@ namespace CampaignChain\Hook\TimespanBundle\Entity;
 
 class Timespan
 {
-    protected $months;
-    
     protected $days;
 
     protected $startDate;
@@ -21,29 +19,6 @@ class Timespan
     protected $endDate;
 
     protected $timezone = 'UTC';
-
-    /**
-     * Set months
-     *
-     * @param \int $months
-     * @return Timespan
-     */
-    public function setMonths($months)
-    {
-        $this->months = $months;
-
-        return $this;
-    }
-
-    /**
-     * Get months
-     *
-     * @return \int
-     */
-    public function getMonths()
-    {
-        return $this->months;
-    }
 
     /**
      * Set days

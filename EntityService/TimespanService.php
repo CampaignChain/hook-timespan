@@ -41,8 +41,7 @@ class TimespanService implements HookServiceTriggerInterface
 
         if(is_object($entity) && $entity->getId() !== null){
             $interval = $entity->getStartDate()->diff($entity->getEndDate());
-            $hook->setMonths($interval->format("%m"));
-            $hook->setDays($interval->format("%d"));
+            $hook->setDays($interval->format("%a"));
             $hook->setStartDate($entity->getStartDate());
             $hook->setEndDate($entity->getEndDate());
         }
@@ -60,7 +59,7 @@ class TimespanService implements HookServiceTriggerInterface
         // Update the dates of the entity.
         $endDate = clone $entity->getStartDate();
         $endDate->modify(
-            '+'.$hook->getMonths().' months +'.$hook->getDays().' days'
+            '+'.$hook->getDays().' days'
         );
         $entity->setEndDate($endDate);
 
