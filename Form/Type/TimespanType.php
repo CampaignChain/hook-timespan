@@ -10,17 +10,15 @@
 
 namespace CampaignChain\Hook\TimespanBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
+use CampaignChain\CoreBundle\Form\Type\HookType;
 use Symfony\Component\Form\FormBuilderInterface;
 use CampaignChain\CoreBundle\Util\DateTimeUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TimespanType extends AbstractType
+class TimespanType extends HookType
 {
-    private $campaign;
-
     protected $container;
     protected $datetime;
 
@@ -30,16 +28,17 @@ class TimespanType extends AbstractType
         $this->datetime = $this->container->get('campaignchain.core.util.datetime');
     }
 
-    public function setCampaign($campaign){
-        $this->campaign = $campaign;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(!isset($this->hooksOptions['disabled'])){
+            $this->hooksOptions['disabled'] = false;
+        }
+
         $builder
             ->add('days', 'integer', array(
                 'label' => false,
                 'precision' => 0,
+                'disabled' => $this->hooksOptions['disabled'],
                 'attr' => array(
                     'help_text' => 'Number of days',
                     'input_group' => array(

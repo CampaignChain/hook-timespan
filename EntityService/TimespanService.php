@@ -27,15 +27,6 @@ class TimespanService implements HookServiceTriggerInterface
         $this->em = $em;
     }
 
-//    public function newObject($entityClass, $entityId, $formData){
-//        $timespan = new Timespan();
-//        $timespan->setEntityId($entityId);
-//        $timespan->setEntityClass($entityClass);
-//        $timespan->setDate($formData['date']);
-//
-//        return $timespan;
-//    }
-
     public function getHook($entity){
         $hook = new Timespan();
 
@@ -54,6 +45,8 @@ class TimespanService implements HookServiceTriggerInterface
         if(!$entity->getStartDate()){
             $now = new \DateTime('now', new \DateTimeZone($hook->getTimezone()));
             $entity->setStartDate($now);
+        } else {
+            $entity->setStartDate($hook->getStartDate());
         }
 
         // Update the dates of the entity.
