@@ -40,6 +40,7 @@ class TimespanType extends HookType
                 'precision' => 0,
                 'disabled' => $this->hooksOptions['disabled'],
                 'attr' => array(
+                    'min' => 1,
                     'help_text' => 'Number of days',
                     'input_group' => array(
                         'append' => '<span class="fa fa-calendar">',

@@ -45,6 +45,8 @@ class TimespanService implements HookServiceTriggerInterface
         if(!$entity->getStartDate()){
             $now = new \DateTime('now', new \DateTimeZone($hook->getTimezone()));
             $entity->setStartDate($now);
+        } elseif(!$hook->getStartDate()) {
+            $hook->setStartDate($entity->getStartDate());
         } else {
             $entity->setStartDate($hook->getStartDate());
         }
