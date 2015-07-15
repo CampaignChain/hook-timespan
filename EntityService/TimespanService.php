@@ -72,24 +72,6 @@ class TimespanService implements HookServiceTriggerInterface
         return $entity;
     }
 
-    /**
-     * This method is being called by the scheduler to check whether
-     * an entity's trigger hook allows the scheduler to execute
-     * the entity's Job.
-     *
-     * @param $entity
-     * @return bool
-     */
-    public function isExecutable($entity){
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
-
-        if($entity->getStartDate() <= $now){
-            return true;
-        }
-
-        return false;
-    }
-
     public function arrayToObject($hookData){
         if(is_array($hookData) && count($hookData)){
             $datetimeUtil = $this->container->get('campaignchain.core.util.datetime');
