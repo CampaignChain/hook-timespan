@@ -10,6 +10,7 @@
 
 namespace CampaignChain\Hook\TimespanBundle\EntityService;
 
+use CampaignChain\CoreBundle\Entity\Hook;
 use CampaignChain\CoreBundle\EntityService\HookServiceTriggerInterface;
 use CampaignChain\Hook\TimespanBundle\Entity\Timespan;
 use Doctrine\ORM\EntityManager;
@@ -27,7 +28,7 @@ class TimespanService implements HookServiceTriggerInterface
         $this->em = $em;
     }
 
-    public function getHook($entity){
+    public function getHook($entity, $mode = Hook::MODE_DEFAULT){
         $hook = new Timespan();
 
         if(is_object($entity) && $entity->getId() !== null){
@@ -41,7 +42,6 @@ class TimespanService implements HookServiceTriggerInterface
     }
 
     public function processHook($entity, $hook){
-        // TODO: Remove this hack to fix validation issue.
         if(!$entity->getStartDate()){
             $now = new \DateTime('now', new \DateTimeZone($hook->getTimezone()));
             $entity->setStartDate($now);
