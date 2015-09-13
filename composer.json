@@ -1,6 +1,6 @@
 {
     "name": "campaignchain/hook-timespan",
-    "description": "Define the timespan of an entity.",
+    "description": "Define the timespan of an Action.",
     "keywords": ["hook","campaignchain"],
     "type": "campaignchain-hook",
     "homepage": "http://www.campaignchain.com",
