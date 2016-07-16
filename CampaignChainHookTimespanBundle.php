@@ -17,8 +17,13 @@
 
 namespace CampaignChain\Hook\TimespanBundle;
 
+use CampaignChain\Hook\TimespanBundle\DependencyInjection\CampaignChainHookTimespanExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class CampaignChainHookTimespanBundle extends Bundle
 {
+    public function getContainerExtension()
+    {
+        return new CampaignChainHookTimespanExtension();
+    }
 }
