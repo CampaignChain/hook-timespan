@@ -17,7 +17,7 @@ parameters:
 services:
     campaignchain.hook.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\EntityService\TimespanService
-        arguments: [ @doctrine.orm.entity_manager, @service_container ]
+        arguments: [ @doctrine, @service_container ]
     campaignchain.hook.form.type.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\Form\Type\TimespanType
         arguments: [ @service_container ]
