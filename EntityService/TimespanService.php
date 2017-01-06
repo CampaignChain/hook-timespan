@@ -24,7 +24,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class TimespanService implements HookServiceTriggerInterface
+class TimespanService extends HookServiceTriggerInterface
 {
     protected $em;
     protected $container;
@@ -76,7 +76,9 @@ class TimespanService implements HookServiceTriggerInterface
             $operation->setTriggerHook($entity->getTriggerHook());
         }
 
-        return $entity;
+        $this->setEntity($entity);
+
+        return true;
     }
 
     public function arrayToObject($hookData){
