@@ -18,21 +18,33 @@
 namespace CampaignChain\Hook\TimespanBundle\EntityService;
 
 use CampaignChain\CoreBundle\Entity\Hook;
+use CampaignChain\CoreBundle\EntityService\CampaignService;
 use CampaignChain\CoreBundle\EntityService\HookServiceTriggerInterface;
+use CampaignChain\CoreBundle\Util\DateTimeUtil;
 use CampaignChain\Hook\TimespanBundle\Entity\Timespan;
+use CampaignChain\CoreBundle\Exception\ErrorCode;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Inflector\Inflector;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class TimespanService extends HookServiceTriggerInterface
 {
     protected $em;
-    protected $container;
+    protected $dateTimeUtil;
+    protected $templating;
+    protected $campaignService;
 
-    public function __construct(ManagerRegistry $managerRegistry, ContainerInterface $container)
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        DateTimeUtil $dateTimeUtil,
+        EngineInterface $templating,
+        CampaignService $campaignService
+    )
     {
-        $this->container = $container;
         $this->em = $managerRegistry->getManager();
+        $this->dateTimeUtil = $dateTimeUtil;
+        $this->templating = $templating;
+        $this->campaignService = $campaignService;
     }
 
     public function getHook($entity, $mode = Hook::MODE_DEFAULT){
@@ -43,6 +55,15 @@ class TimespanService extends HookServiceTriggerInterface
             $hook->setDays($interval->format("%a"));
             $hook->setStartDate($entity->getStartDate());
             $hook->setEndDate($entity->getEndDate());
+
+            /**
+             * If this is a campaign, we define the time limits for the timespan.
+             */
+            $class = get_class($entity);
+            if(strpos($class, 'CoreBundle\Entity\Campaign') !== false) {
+                $entity = $this->setPostStartDateLimit($entity);
+                $entity = $this->setPreEndDateLimit($entity);
+            }
         }
 
         return $hook;
@@ -56,6 +77,13 @@ class TimespanService extends HookServiceTriggerInterface
             $hook->setStartDate($entity->getStartDate());
         } else {
             $entity->setStartDate($hook->getStartDate());
+        }
+
+        $class = get_class($entity);
+        if(strpos($class, 'CoreBundle\Entity\Campaign') !== false) {
+            if(!$this->campaignService->isValidTimespan($entity, new \DateInterval("P".$hook->getDays()."D"))){
+                $this->addErrorCode(ErrorCode::CAMPAIGN_TIMESPAN_INSUFFICIENT);
+            }
         }
 
         // Update the dates of the entity.
@@ -83,13 +111,11 @@ class TimespanService extends HookServiceTriggerInterface
 
     public function arrayToObject($hookData){
         if(is_array($hookData) && count($hookData)){
-            $datetimeUtil = $this->container->get('campaignchain.core.util.datetime');
-
             // Intercept if timespan date is supposed to be "now".
             if(isset($hookData['execution_choice'])){
                 if($hookData['execution_choice'] == 'now'){
                     $nowDate = new \DateTime('now');
-                    $hookData['date'] = $datetimeUtil->formatLocale($nowDate);
+                    $hookData['date'] = $this->datetimeUtil->formatLocale($nowDate);
                 }
                 unset($hookData['execution_choice']);
             }
@@ -111,7 +137,7 @@ class TimespanService extends HookServiceTriggerInterface
 
     public function tplInline($entity){
         $hook = $this->getHook($entity);
-        return $this->container->get('templating')->render(
+        return $this->templating->render(
             'CampaignChainHookTimespanBundle::inline.html.twig',
             array('hook' => $hook)
         );
