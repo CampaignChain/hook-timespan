@@ -19,6 +19,8 @@ namespace CampaignChain\Hook\TimespanBundle\Entity;
 
 class Timespan
 {
+    protected $date;
+
     protected $days;
 
     protected $startDate;

@@ -24,7 +24,7 @@ services:
             - "@campaignchain.core.campaign"
     campaignchain.hook.form.type.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\Form\Type\TimespanType
-        arguments: [ @service_container ]
+        arguments: [ '@service_container' ]
     campaignchain.hook.listener.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\EventListener\TimespanListener
-        arguments: [ @service_container ]
+        arguments: [ '@service_container' ]
