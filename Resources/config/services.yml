@@ -22,9 +22,13 @@ services:
             - "@campaignchain.core.util.datetime"
             - "@templating"
             - "@campaignchain.core.campaign"
+
     campaignchain.hook.form.type.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\Form\Type\TimespanType
         arguments: [ '@service_container' ]
+        tags:
+            - { name: form.type }
+
     campaignchain.hook.listener.campaignchain.timespan:
         class: CampaignChain\Hook\TimespanBundle\EventListener\TimespanListener
         arguments: [ '@service_container' ]
