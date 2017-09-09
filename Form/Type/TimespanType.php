@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use CampaignChain\CoreBundle\Util\DateTimeUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimespanType extends HookType
 {
@@ -37,6 +37,8 @@ class TimespanType extends HookType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->setOptions($options);
+
         if(!isset($this->hooksOptions['disabled'])){
             $this->hooksOptions['disabled'] = false;
         }
@@ -56,8 +58,10 @@ class TimespanType extends HookType
             ));
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setDefaults([
                 'validation_groups' => false,
