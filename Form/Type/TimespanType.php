@@ -46,7 +46,7 @@ class TimespanType extends HookType
         $builder
             ->add('days', 'integer', array(
                 'label' => false,
-                'precision' => 0,
+                'scale' => 0,
                 'disabled' => $this->hooksOptions['disabled'],
                 'attr' => array(
                     'min' => 1,

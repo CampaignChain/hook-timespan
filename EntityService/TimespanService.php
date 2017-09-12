@@ -18,35 +18,13 @@
 namespace CampaignChain\Hook\TimespanBundle\EntityService;
 
 use CampaignChain\CoreBundle\Entity\Hook;
-use CampaignChain\CoreBundle\EntityService\CampaignService;
 use CampaignChain\CoreBundle\EntityService\HookServiceTriggerInterface;
-use CampaignChain\CoreBundle\Util\DateTimeUtil;
 use CampaignChain\Hook\TimespanBundle\Entity\Timespan;
 use CampaignChain\CoreBundle\Exception\ErrorCode;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Inflector\Inflector;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class TimespanService extends HookServiceTriggerInterface
 {
-    protected $em;
-    protected $dateTimeUtil;
-    protected $templating;
-    protected $campaignService;
-
-    public function __construct(
-        ManagerRegistry $managerRegistry,
-        DateTimeUtil $dateTimeUtil,
-        EngineInterface $templating,
-        CampaignService $campaignService
-    )
-    {
-        $this->em = $managerRegistry->getManager();
-        $this->dateTimeUtil = $dateTimeUtil;
-        $this->templating = $templating;
-        $this->campaignService = $campaignService;
-    }
-
     public function getHook($entity, $mode = Hook::MODE_DEFAULT){
         $hook = new Timespan();
 
